@@ -9,15 +9,15 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   attr_accessor :remember_token, :activation_token, :reset_token
-  before_save   :downcase_email
+  #before_save   :downcase_email
   before_create :create_activation_digest
   validates :name, presence:true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  validates :email, presence:true, length: { maximum: 255 },
-            format: { with: VALID_EMAIL_REGEX },
-            uniqueness: { case_sensitive: false }
-  has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  #validates :email, presence:true, length: { maximum: 255 },
+  #          format: { with: VALID_EMAIL_REGEX },
+  #          uniqueness: { case_sensitive: false }
+  #has_secure_password
+  #validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   class << self
     # 渡された文字列のハッシュ値を返す
@@ -31,6 +31,17 @@ class User < ApplicationRecord
     def new_token
       SecureRandom.urlsafe_base64
     end
+
+    def find_or_create_from_auth_hash(auth_hash)
+#OmniAuthで取得した各データを代入していく
+    provider = auth_hash[:provider]
+    uid = auth_hash[:uid]
+    name = auth_hash[:info][:nickname]
+    image_url = auth_hash[:info][:image]
+
+    user = User.find_by(provider: provider, uid: uid)
+    User.create(provider: provider, uid: uid, name: name, image_url: image_url) unless user
+  end
   end
 
   # 永続セッションのためにユーザーをデータベースに記憶する

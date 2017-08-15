@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/auth/:provider/callback' => 'sessions#create'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'

@@ -1,6 +1,8 @@
 <% provide(:title, 'nenpyo') %>
-<h1>nenpyo.me</h1>
 
-  <center>
-   <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-  </center>
+
+<% if logged_in? %>
+  <%= render 'static_pages/create_micropost' %>
+<% else %>
+  <%= render 'static_pages/signup' %>
+<% end %>

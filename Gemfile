@@ -17,6 +17,11 @@ gem 'jquery-rails', '4.1.1'
 gem 'turbolinks',   '5.0.1'
 gem 'jbuilder',     '2.4.1'
 
+# ツイッターログインを実装しようとして入力
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'settingslogic'
+
 group :development, :test do
   gem 'pry-rails'  # rails console(もしくは、rails c)でirbの代わりにpryを使われる
   gem 'pry-doc'    # methodを表示
